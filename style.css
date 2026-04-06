@@ -1,0 +1,197 @@
+/* ============================================================
+   TULIS YUK! — Stylesheet
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap');
+
+/* ── Root Variables ─────────────────────────────────────────── */
+:root {
+  --pink:    #FF6B9D;
+  --purple:  #C77DFF;
+  --blue:    #4CC9F0;
+  --green:   #6BCB77;
+  --yellow:  #FFD60A;
+  --orange:  #FFB347;
+  --bg-from: #FF6B9D;
+  --bg-to:   #C77DFF;
+}
+
+/* ── Base ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
+  overscroll-behavior: none;
+}
+
+.font-display { font-family: 'Baloo 2', cursive; }
+
+/* ── App Background ──────────────────────────────────────────── */
+.bg-app {
+  background: linear-gradient(160deg, #FF6B9D 0%, #C77DFF 50%, #4CC9F0 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* ── Screens ─────────────────────────────────────────────────── */
+.screen {
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #FFD60A, #FF9A3C);
+  color: #7C3000;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  font-family: 'Nunito', sans-serif;
+}
+.btn-primary:active { transform: scale(0.95); }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.9);
+  color: #6B5B95;
+  border: 2px solid rgba(200,170,255,0.5);
+  cursor: pointer;
+  user-select: none;
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.85);
+  border: 2px solid rgba(255,255,255,0.3);
+  cursor: pointer;
+  user-select: none;
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn-back {
+  background: rgba(255,255,255,0.9);
+  color: #6B5B95;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+}
+
+/* ── Cards ───────────────────────────────────────────────────── */
+.word-card {
+  background: rgba(255,255,255,0.97);
+}
+
+.info-card {
+  background: rgba(255,255,255,0.8);
+}
+
+.tip-card {
+  background: rgba(230,210,255,0.7);
+  border: 2px dashed #C77DFF;
+}
+
+.result-card {
+  background: rgba(255,255,255,0.97);
+}
+
+/* ── Category Cards ──────────────────────────────────────────── */
+.category-card {
+  background: rgba(255,255,255,0.9);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.category-card:active { transform: scale(0.95); }
+
+/* ── Canvas ──────────────────────────────────────────────────── */
+.canvas-container {
+  width: min(340px, calc(100vw - 2rem));
+  height: min(340px, calc(100vw - 2rem));
+  background: rgba(255,255,255,0.97);
+  border: 4px solid rgba(200,170,255,0.6);
+  position: relative;
+}
+
+#drawCanvas, #traceCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+#drawCanvas {
+  cursor: crosshair;
+  z-index: 2;
+}
+#traceCanvas {
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Progress ────────────────────────────────────────────────── */
+.progress-bg {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── Color & Brush Buttons ────────────────────────────────────── */
+.color-btn, .brush-btn {
+  border: 2px solid rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: transform 0.1s, ring 0.1s;
+}
+.color-btn.ring-4, .brush-btn.ring-4 {
+  outline: 3px solid #FFD60A;
+  outline-offset: 2px;
+}
+.color-btn:active, .brush-btn:active { transform: scale(0.85); }
+
+/* ── Animations ──────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(-3deg); }
+  50%       { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes bounce-in {
+  0%   { transform: scale(0.85); opacity: 0.7; }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1);    opacity: 1; }
+}
+@keyframes ping-once {
+  0%   { transform: scale(1);   opacity: 1; }
+  70%  { transform: scale(1.8); opacity: 0.5; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(-10deg); }
+  75%       { transform: rotate(10deg); }
+}
+
+.floating       { animation: float 3s ease-in-out infinite; }
+.floating-slow  { animation: float-slow 4.5s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 6s linear infinite; }
+.bounce-in      { animation: bounce-in 0.4s cubic-bezier(.36,.07,.19,.97); }
+.animate-ping-once { animation: ping-once 0.9s ease-out forwards; }
+
+/* ── Scrollbar hide ──────────────────────────────────────────── */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* ── Prevent selection ───────────────────────────────────────── */
+button, canvas { user-select: none; -webkit-user-select: none; }
+
+/* ── Safe area for modern phones ─────────────────────────────── */
+.screen {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  padding-top: max(1rem, env(safe-area-inset-top));
+}

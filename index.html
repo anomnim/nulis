@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#FF6B9D" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Tulis Yuk!" />
+    <meta name="description" content="Game belajar menulis untuk anak-anak Indonesia" />
+    <title>Tulis Yuk! ✏️</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/png" href="icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-app min-h-screen overflow-x-hidden">
+
+    <!-- ── TOAST ───────────────────────────────────────────── -->
+    <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-yellow-400 text-yellow-900 font-bold px-5 py-3 rounded-full shadow-xl opacity-0 translate-y-4 transition-all duration-300 pointer-events-none text-sm">
+      Tulis dulu ya! ✏️
+    </div>
+
+    <!-- ── STAR ANIM ────────────────────────────────────────── -->
+    <div id="starAnim" class="hidden fixed inset-0 z-40 flex items-center justify-center pointer-events-none">
+      <div class="text-8xl animate-bounce">⭐</div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         SCREEN: HOME
+    ════════════════════════════════════════════════════════ -->
+    <div id="screen-home" class="screen flex flex-col items-center justify-center min-h-screen px-6 py-10 gap-6">
+      <!-- Logo -->
+      <div class="relative">
+        <div class="floating text-8xl">✏️</div>
+        <div class="absolute -top-2 -right-2 text-3xl animate-spin-slow">⭐</div>
+      </div>
+
+      <!-- Title -->
+      <div class="text-center">
+        <h1 class="font-display text-5xl font-black text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.2)] leading-none">
+          Tulis Yuk!
+        </h1>
+        <p class="text-white/80 font-semibold text-lg mt-2">Belajar menulis itu seru! 🎉</p>
+      </div>
+
+      <!-- Characters decoratif -->
+      <div class="flex gap-3 text-5xl my-2 floating-slow">
+        <span>🦁</span><span>🐱</span><span>🐸</span><span>🐼</span>
+      </div>
+
+      <!-- CTA -->
+      <button onclick="showCategories(); playSound('tap')"
+        class="btn-primary w-full max-w-xs text-xl font-black py-5 px-8 rounded-3xl shadow-2xl active:scale-95 transition-transform">
+        🚀 Mulai Belajar!
+      </button>
+
+      <!-- Info cards -->
+      <div class="grid grid-cols-3 gap-3 w-full max-w-xs">
+        <div class="info-card rounded-2xl p-3 text-center">
+          <div class="text-2xl">✍️</div>
+          <div class="text-xs font-bold text-gray-600 mt-1">Tulis di<br>layar</div>
+        </div>
+        <div class="info-card rounded-2xl p-3 text-center">
+          <div class="text-2xl">📚</div>
+          <div class="text-xs font-bold text-gray-600 mt-1">150+<br>kata</div>
+        </div>
+        <div class="info-card rounded-2xl p-3 text-center">
+          <div class="text-2xl">⭐</div>
+          <div class="text-xs font-bold text-gray-600 mt-1">Kumpul<br>bintang</div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <p class="text-white/50 text-xs text-center">Gunakan jari untuk menulis di layar</p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         SCREEN: CATEGORY
+    ════════════════════════════════════════════════════════ -->
+    <div id="screen-category" class="screen hidden min-h-screen px-4 py-6 flex flex-col gap-4">
+      <!-- Header -->
+      <div class="flex items-center gap-3">
+        <button onclick="showHome(); playSound('tap')" class="btn-back rounded-2xl w-11 h-11 flex items-center justify-center text-xl shadow-md active:scale-95 transition-transform">
+          ←
+        </button>
+        <div>
+          <h2 class="font-display font-black text-2xl text-white">Pilih Kategori</h2>
+          <p class="text-white/70 text-sm">Mau belajar apa dulu?</p>
+        </div>
+      </div>
+
+      <!-- Category Grid -->
+      <div id="categoryGrid" class="grid grid-cols-2 gap-4"></div>
+
+      <!-- Tip -->
+      <div class="tip-card rounded-2xl p-4 text-center mt-2">
+        <p class="text-sm font-bold text-purple-700">💡 Tips: Mulai dari Huruf dulu ya!</p>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         SCREEN: GAME
+    ════════════════════════════════════════════════════════ -->
+    <div id="screen-game" class="screen hidden min-h-screen flex flex-col px-4 pt-4 pb-6 gap-3">
+
+      <!-- Top Bar -->
+      <div class="flex items-center justify-between">
+        <button onclick="skipWord(); " class="btn-back rounded-2xl px-3 py-2 text-sm font-bold flex items-center gap-1 shadow-md active:scale-95">
+          ← Lewati
+        </button>
+        <div class="flex items-center gap-2 bg-yellow-100 rounded-2xl px-4 py-2 shadow">
+          <span class="text-lg">⭐</span>
+          <span id="scoreDisplay" class="font-black text-xl text-yellow-600">0</span>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-bg rounded-full h-3 overflow-hidden">
+        <div id="progressBar" class="h-full rounded-full transition-all duration-500" style="width:0%"></div>
+      </div>
+      <div class="text-center text-white/70 text-sm font-semibold" id="progressText">1 / 10</div>
+
+      <!-- Word Card -->
+      <div id="wordCard" class="word-card rounded-3xl p-5 flex flex-col items-center gap-2 border-4 shadow-xl">
+        <div id="wordEmoji" class="text-6xl leading-none">🍎</div>
+        <div id="wordText" class="font-display font-black text-4xl text-gray-800 text-center leading-tight break-all"></div>
+        <div id="wordHint" class="text-sm text-gray-500 font-semibold text-center italic"></div>
+      </div>
+
+      <!-- Canvas Area -->
+      <div class="flex flex-col items-center gap-2">
+        <p class="text-white/80 text-sm font-bold">✍️ Tulis di kotak ini:</p>
+        <div id="canvasContainer" class="relative canvas-container rounded-3xl overflow-hidden shadow-2xl">
+          <!-- Trace/guide layer -->
+          <canvas id="traceCanvas" class="absolute inset-0"></canvas>
+          <!-- Drawing layer -->
+          <canvas id="drawCanvas" class="absolute inset-0 touch-none"></canvas>
+        </div>
+      </div>
+
+      <!-- Brush Controls -->
+      <div class="flex items-center justify-between px-1 gap-3">
+        <!-- Colors -->
+        <div class="flex gap-2 items-center">
+          <span class="text-xs text-white/70 font-semibold">Warna:</span>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300" style="background:#2D3561" onclick="setBrushColor('#2D3561', this)"></button>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300" style="background:#E63946" onclick="setBrushColor('#E63946', this)"></button>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300" style="background:#2A9D8F" onclick="setBrushColor('#2A9D8F', this)"></button>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300" style="background:#E9C46A" onclick="setBrushColor('#E9C46A', this)"></button>
+        </div>
+        <!-- Brush sizes -->
+        <div class="flex gap-2 items-center">
+          <button class="brush-btn w-6 h-6 rounded-full bg-white shadow-md active:scale-90 ring-yellow-300 flex items-center justify-center" onclick="setBrushSize(7, this)">
+            <span class="w-2 h-2 rounded-full bg-gray-600 block"></span>
+          </button>
+          <button class="brush-btn w-8 h-8 rounded-full bg-white shadow-md active:scale-90 ring-yellow-300 flex items-center justify-center" onclick="setBrushSize(12, this)">
+            <span class="w-3 h-3 rounded-full bg-gray-600 block"></span>
+          </button>
+          <button class="brush-btn w-9 h-9 rounded-full bg-white shadow-md active:scale-90 ring-yellow-300 flex items-center justify-center" onclick="setBrushSize(18, this)">
+            <span class="w-4 h-4 rounded-full bg-gray-600 block"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-3">
+        <button onclick="clearCanvas()" class="btn-secondary flex-1 py-4 rounded-2xl font-bold text-base shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2">
+          🗑️ Hapus
+        </button>
+        <button id="submitBtn" onclick="submitAnswer()" class="btn-primary flex-1 py-4 rounded-2xl font-black text-base shadow-xl active:scale-95 transition-transform flex items-center justify-center gap-2 opacity-0 pointer-events-none">
+          ✅ Selesai!
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         SCREEN: RESULT
+    ════════════════════════════════════════════════════════ -->
+    <div id="screen-result" class="screen hidden min-h-screen flex flex-col items-center justify-center px-6 py-10 gap-6">
+      <!-- Trophy -->
+      <div class="text-8xl floating">🏆</div>
+
+      <!-- Stars -->
+      <div id="resultStars" class="flex gap-2"></div>
+
+      <!-- Score -->
+      <div class="result-card rounded-3xl p-6 text-center w-full max-w-sm shadow-2xl">
+        <h2 class="font-display font-black text-3xl text-gray-800 mb-1">Selesai! 🎉</h2>
+        <p id="resultMsg" class="text-gray-600 font-semibold mb-4"></p>
+        <div class="flex justify-around">
+          <div class="text-center">
+            <div id="resultScore" class="font-black text-4xl text-yellow-500">0</div>
+            <div class="text-sm text-gray-500 font-semibold">Nilai</div>
+          </div>
+          <div class="text-center">
+            <div id="resultWords" class="font-black text-xl text-purple-500">0</div>
+            <div class="text-sm text-gray-500 font-semibold">Kata ditulis</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Animals celebration -->
+      <div class="flex gap-3 text-5xl">
+        <span class="floating">🎊</span>
+        <span class="floating-slow">🌟</span>
+        <span class="floating">🎈</span>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex flex-col gap-3 w-full max-w-sm">
+        <button onclick="startCategory(state.currentCategory)" class="btn-primary py-4 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition-transform">
+          🔄 Ulangi Lagi!
+        </button>
+        <button onclick="showCategories(); playSound('tap')" class="btn-secondary py-4 rounded-2xl font-bold text-lg shadow-lg active:scale-95 transition-transform">
+          📚 Pilih Kategori Lain
+        </button>
+        <button onclick="showHome(); playSound('tap')" class="btn-ghost py-3 rounded-2xl font-semibold text-base active:scale-95 transition-transform">
+          🏠 Ke Beranda
+        </button>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="words.js"></script>
+    <script src="app.js"></script>
+    <script>
+      // Register Service Worker
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("sw.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
