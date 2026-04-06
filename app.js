@@ -22,7 +22,25 @@ let canvas, ctx;
 let traceCanvas, traceCtx;
 let lastX, lastY;
 let brushSize = 12;
-let brushColor = "#2D3561";
+let canvasBgColor = "#FFFFFF";   // warna background canvas
+let brushColor = "#2D3561";      // warna kuas (otomatis kontras)
+
+// Hitung apakah warna terang atau gelap, lalu pilih kuas yang kontras
+function getContrastColor(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  // luminance formula
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5 ? "#1a1a2e" : "#FFFFFF";
+}
+
+function applyCanvasBg() {
+  const container = document.getElementById("canvasContainer");
+  if (container) container.style.backgroundColor = canvasBgColor;
+  brushColor = getContrastColor(canvasBgColor);
+  if (ctx) ctx.strokeStyle = brushColor;
+}
 
 function initCanvas() {
   canvas = document.getElementById("drawCanvas");
@@ -362,10 +380,12 @@ function setBrushSize(size) {
   event.target.classList.add("ring-4");
 }
 
-function setBrushColor(color) {
-  brushColor = color;
+function setBrushColor(color, btnEl) {
+  canvasBgColor = color;
+  applyCanvasBg();
   document.querySelectorAll(".color-btn").forEach((b) => b.classList.remove("ring-4"));
-  event.target.classList.add("ring-4");
+  const target = btnEl || event?.target;
+  if (target) target.classList.add("ring-4");
 }
 
 // ── Utilities ─────────────────────────────────────────────────
@@ -435,6 +455,7 @@ function playSound(type) {
 // ── Init ─────────────────────────────────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
   initCanvas();
+  applyCanvasBg();
 
   // Default brush & color selection highlight
   document.querySelectorAll(".brush-btn")[1]?.classList.add("ring-4");

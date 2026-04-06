@@ -143,13 +143,14 @@
 
       <!-- Brush Controls -->
       <div class="flex items-center justify-between px-1 gap-3">
-        <!-- Colors -->
+        <!-- Canvas background colors -->
         <div class="flex gap-2 items-center">
-          <span class="text-xs text-white/70 font-semibold">Warna:</span>
-          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300" style="background:#2D3561" onclick="setBrushColor('#2D3561', this)"></button>
-          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300" style="background:#E63946" onclick="setBrushColor('#E63946', this)"></button>
-          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300" style="background:#2A9D8F" onclick="setBrushColor('#2A9D8F', this)"></button>
-          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300" style="background:#E9C46A" onclick="setBrushColor('#E9C46A', this)"></button>
+          <span class="text-xs text-white/70 font-semibold">Kertas:</span>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300 border-2 border-gray-200" style="background:#FFFFFF" onclick="setBrushColor('#FFFFFF', this)" title="Putih"></button>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300 border-2 border-yellow-200" style="background:#FFF9C4" onclick="setBrushColor('#FFF9C4', this)" title="Kuning muda"></button>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300 border-2 border-blue-200" style="background:#BBDEFB" onclick="setBrushColor('#BBDEFB', this)" title="Biru muda"></button>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300 border-2 border-green-200" style="background:#C8E6C9" onclick="setBrushColor('#C8E6C9', this)" title="Hijau muda"></button>
+          <button class="color-btn w-8 h-8 rounded-full shadow-md active:scale-90 ring-yellow-300 border-2 border-gray-600" style="background:#263238" onclick="setBrushColor('#263238', this)" title="Papan tulis"></button>
         </div>
         <!-- Brush sizes -->
         <div class="flex gap-2 items-center">
